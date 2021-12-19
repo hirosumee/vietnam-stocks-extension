@@ -58,7 +58,7 @@ function StocksContainer(props) {
     callSearch(debouncedSearchValue);
   }, [debouncedSearchValue, callSearch]);
   React.useEffect(() => {
-    return watchSavedStocksChange((v) => setSavedStocks(v.newValue));
+    return watchSavedStocksChange((v) => setSavedStocks(v));
   }, []);
   const onSearch = (value) => callSearch(value);
   const onChange = (e) => setSearchValue(e.target.value);

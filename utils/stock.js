@@ -1,4 +1,4 @@
-import {appendToArray, deleteFromArray, get, watchChanges} from './storage';
+import { appendToArray, deleteFromArray, get, watchChanges } from './storage';
 
 const KEY = '__stocks';
 export async function saveNewStock(symbol) {
@@ -12,14 +12,22 @@ export async function unpinStock(symbol) {
 }
 
 export async function getSavedStocks() {
-  return get(KEY);
+  return get(KEY).then((v) => {
+    if (Array.isArray(v)) {
+      return v;
+    }
+    return [];
+  });
 }
 
 export function watchSavedStocksChange(cb) {
-  return watchChanges('local', KEY, cb);
+  return watchChanges('local', KEY, (v) => {
+    if (Array.isArray(v.newValue)) {
+      cb(v.newValue);
+    }
+  });
 }
 
-
 export function deleteStock(symbol) {
-  return deleteFromArray(KEY, symbol, 'symbol')
+  return deleteFromArray(KEY, symbol, 'symbol');
 }
